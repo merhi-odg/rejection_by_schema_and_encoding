@@ -1,0 +1,10 @@
+{
+  "type": "record",
+  "name": "input_schema",
+  "fields": [
+    {
+      "name": "input",
+      "type": "double"
+    }
+  ]
+}

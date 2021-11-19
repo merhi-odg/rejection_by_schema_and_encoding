@@ -1,0 +1,10 @@
+{
+  "type": "record",
+  "name": "output_schema",
+  "fields": [
+    {
+      "name": "reciprocal",
+      "type": "double"
+    }
+  ]
+}
