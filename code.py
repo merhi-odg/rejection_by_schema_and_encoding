@@ -2,7 +2,7 @@
 # modelop.schema.1: output_schema.avsc
 
 import logging
-import warnings
+import numpy
 
 # Line below is not needed since engine's jet.py set it globally
 # warnings.filterwarnings("error", category=UserWarning) # Coerce UserWarnings into erros
@@ -23,14 +23,15 @@ def action(data: float) -> dict:
     """
     
     logger.info("Input to action(): %s", data)
-
-    if not isinstance(data, dict):
-        raise UserWarning("Bad Input: input data should be a dictionary")
-    if not "input" in data:
-        warnings.warn("Key 'input' missing from input data", category=UserWarning)
-    if data["input"]==0:    
-        raise UserWarning("Bad Input: DivisionByZero Expected!")
     
-    output = {"reciprocal": 1/data["input"]}
+    if data["input"]==0:
+        # Cause rejection by output schema by yielding bad output
+        output = {"reciprocal": "N/A"}
+    elif data["input"]==3.14:
+        # Cause rejection by JSON encoding on output by yielding numpy.nan (not serializable as null)
+        output = {"reciprocal": numpy.nan}
+    else:
+        # No rejections
+        output = {"reciprocal": 1/data["input"]}
 
     yield output
