@@ -25,8 +25,11 @@ def action(data: float) -> dict:
     logger.info("Input to action(): %s", data)
     
     if data["input"]==0:
-        # Cause rejection by output schema by yielding bad output
+        # Cause rejection by output schema by yielding string value instead of float
         output = {"reciprocal": "N/A"}
+    elif data["input"]==42:
+        # Cause rejection by output schema by yielding array of dict instead of dict
+        output = [{"reciprocal": 1/42}]
     elif data["input"]==3.14:
         # Cause rejection by JSON encoding on output by yielding numpy.nan (not serializable as null)
         output = {"reciprocal": numpy.nan}
