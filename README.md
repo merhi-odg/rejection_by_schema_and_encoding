@@ -1,4 +1,4 @@
-# reciprocal
+# Rejection by Schema and Encoding
 
 This repo serves a test model for MOC runtime features and functionalities.
 
