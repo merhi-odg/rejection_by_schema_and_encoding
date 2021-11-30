@@ -31,21 +31,21 @@ This repo serves a test model for MOC runtime features and functionalities.
     - schema checking **enabled**
     - Relevant Portion of job logs
     ```
-        2021/11/19 20:28:18 [error] Record rejected by schema: Field 'input' missing for record 'input_schema': **********
-        2021/11/19 20:28:18 [error] Record rejected by schema: Record expected, not [{"input":1}]: ********** (TODO: FIX LEAK)
-        2021/11/19 20:28:18 [error] 2 input record(s) rejected by schema
-        2021/11/19 20:28:18 [warning] jobResult set to failure: "input record rejected by schema"
+        2021/11/30 15:56:29 [error] Record rejected by schema: Field 'input' missing for record 'input_schema': **********
+        2021/11/30 15:56:29 [error] Record rejected by schema: Record expected, not **********: **********
+        2021/11/30 15:56:29 [error] 2 input record(s) rejected by schema
+        2021/11/30 15:56:29 [warning] jobResult set to failure: "input record rejected by schema"
     ```
 
 4. `input_causes_output_schema_rejection.json`
     - schema checking **enabled**
     - Relevant Portion of job logs
     ```
-        2021/11/19 20:35:27 [error] Record rejected by schema: Double expected, not "N/A": **********  (TODO: FIX LEAK)
-        2021/11/19 20:35:27 [error] 1 output record(s) rejected by schema
-        2021/11/19 20:35:27 [error] Record rejected by schema: Record expected, not [{"reciprocal":0.023809523809523808}]: **********  (TODO: FIX LEAK)
-        2021/11/19 20:35:27 [error] 1 output record(s) rejected by schema
-        2021/11/19 20:35:27 [warning] jobResult set to failure: "output record rejected by schema"
+        2021/11/30 15:58:37 [error] Record rejected by schema: Double expected, not **********: **********
+        2021/11/30 15:58:37 [error] 1 output record(s) rejected by schema
+        2021/11/30 15:58:37 [error] Record rejected by schema: Record expected, not **********: **********
+        2021/11/30 15:58:37 [error] 1 output record(s) rejected by schema
+        2021/11/30 15:58:37 [warning] jobResult set to failure: "output record rejected by schema"
     ```
 
 In each of the cases above, the job should **complete** (`"jobStatus": "COMPLETE"`) with **failure** (`"jobResult": "FAILURE"`)
@@ -59,4 +59,9 @@ In each of the cases above, the job should **complete** (`"jobStatus": "COMPLETE
 * Set up an runtime with a roundtrip REST input endpoint, and set the encoding to **JSON**
 * POST requests to `<MOC_URL>/<engine-name>/api/roundtrip/0/1`
 * Request bodies to try:
-    - TODO
+    - {"input": 1}: **expected output**: {"reciprocal": 1.0}
+    - {"input": 0}: **expected output**: An error has occurred: **output** record rejected by **schema**
+    - {"inputs": 1}: **expected output**: An error has occurred: **input** record rejected by **schema**
+    - {"input": 42}: **expected output**: An error has occurred: **output** record rejected by **schema**
+    - {"input': 1}: **expected output**: An error has occurred: **input** record rejected by **encoding**
+    - {"input": 3.14}: **expected output**: An error has occurred: **output** record rejected by **encoding**
